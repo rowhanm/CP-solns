@@ -1,8 +1,7 @@
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
-typedef unsigned int ui;
-
+#define ui long long int
 class DisjointSet
 {
   ui* parent;
@@ -12,9 +11,9 @@ public:
   ui* size;
   DisjointSet(ui n)
   {
-    parent = new ui[n];
-    rank = new ui[n];
-    size = new ui[n];
+    parent = new ui[n+1];
+    rank = new ui[n+1];
+    size = new ui[n+1];
     for (ui x = 0; x < n; x++)
     {
       parent[x] = x;
@@ -40,13 +39,13 @@ public:
     if (rank[a] > rank[b])
     {
       parent[b] = a;
-      size[a] = size[a] + size[b];
+      size[a] += size[b];
       size[b] = size[a];
     }
     else if (rank[b] > rank[a])
     {
       parent[a] = b;
-      size[b] = size[b] + size[a];
+      size[b] += size[a];
       size[a] = size[b];
     }
     else
@@ -62,12 +61,12 @@ public:
 int main()
 {
   ui n, q, a, b;
-  scanf("%u%u",&n,&q);
+  scanf("%lli%lli",&n,&q);
   DisjointSet d(n);
   while (q--) {
-    scanf("%u%u", &a,&b);
+    scanf("%lli%lli", &a,&b);
     d.join(--a,--b);
-    printf("%u\n",*std::max_element(d.size, d.size + n) - *std::min_element(d.size, d.size + n)); 
+    printf("%lli\n",*std::max_element(d.size, d.size + n) - *std::min_element(d.size, d.size + n)); 
   }
   return 0;
 }
